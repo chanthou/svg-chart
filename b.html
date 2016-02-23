@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+<meta charset="utf-8">
+<title>The Wealth & Health of Nations</title>
+<style>
+<header>
+/*import url(../style.css?aea6f0a);*/
+
+#chart {
+  margin-left: -40px;
+  height: 506px;
+}
+
+text {
+  font: 10px sans-serif;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.label {
+  fill: #777;
+}
+
+.year.label {
+  font: 500 196px "Helvetica Neue";
+  fill: #ddd;
+}
+
+.year.label.active {
+  fill: #aaa;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+  cursor: ew-resize;
+}
+
+
+ body.annotary-highlight-mode { cursor: url('chrome-extension://fncckipieakpgpjifiadfiigdeanbond/shared/img/cursor_highlight.png') 4 11,auto !important; } 
+
+ #curve-text {
+  font: 40px sans-serif;
+}
+
+#curve-line, #curve-line-lines1, #curve-line-lines2 {
+  stroke: #999;
+  fill: none;
+}
+
+</style>
+</header>
+
+
+<p id="chart"></p>
+
+
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+
+
+ 
+var height = 400
+  y0 =height/2;
+ 
+
+
+var nodes = [
+  { "r":15, y:y0, color:"#3182BD"}, 
+  { "r":20, y:y0-20, color:"yellow"}, 
+  { "r":30, y:y0+30, color:"blue"},
+  { "r":20, y:y0-20, color:"red"},
+  { "r":20, y: y0, color:"green"}
+];
+
+var width = 10;
+space = 10;
+for (var i = nodes.length - 1; i >= 0; i--) {
+  width= width+ nodes[i].r*2 + space;
+};
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+
+var lines = [{"x":0, y: y0}];
+var lines2 = [{"x":0, y: y0}];
+
+
+
+
+for (var i = 0; i < nodes.length; i++) {
+  if(i==0){
+    nodes[i].x = nodes[i].r + 10;
+  }else{
+    nodes[i].x = nodes[i-1].x + nodes[i-1].r + space + nodes[i].r;
+  }
+  // if(nodes[i].r < 15){ nodes[i].r =15}
+  if(nodes[i].y >= y0){
+    // if(nodes[i].y == y0){
+    //   lines2.push({x: nodes[i].x, y: nodes[i].y - nodes[i].r});
+    // }else{
+    //   lines2.push({x: nodes[i].x, y: nodes[i].y - nodes[i].r*2});
+    // }
+  }
+  lines.push({x: nodes[i].x, y: y0 + nodes[i].r*2});
+  lines2.push({x: nodes[i].x, y: y0 - nodes[i].r});
+};
+
+lines.push({"x":width, y: y0});
+lines2.push({"x":width, y: y0});
+
+curveLine(lines,"lines1", 110);
+curveLine(lines2, "lines2", y0);
+
+var line = svg.append("line")
+  .attr("x1", 0)
+  .attr("y1", y0)
+  .attr("x2", width)
+  .attr("y2", y0)
+  .attr("stroke-width", 2)
+  .attr("stroke", "black");
+
+// var ci = svg.selectAll(".ci")
+//   .data(lines)
+//   .enter().append("g")
+//     .attr("class", "ci")
+//       .append("circle")
+//         .attr("r", 3)
+//         .attr("cx", function(d){ return d.x})
+//         .attr("cy", function(d){ return d.y})
+//         .attr("stroke","black")
+//         .attr("fill", "red" )
+
+// var ci = svg.selectAll(".ci")
+//   .data(lines2)
+//   .enter().append("g")
+//     .attr("class", "ci")
+//       .append("circle")
+//         .attr("r", 3)
+//         .attr("cx", function(d){ return d.x})
+//         .attr("cy", function(d){ return d.y})
+//         .attr("stroke","black")
+//         .attr("fill", "red" )
+
+
+    /* Define the data for the circles */
+var elem = svg.selectAll(".circle")
+    .data(nodes)
+    .enter().append("g")
+      .attr("class", "circle")
+      .attr("transform", function(d){return "translate("+d.x+","+d.y+")"})
+      .append("circle")
+        .attr("r", function(d){
+          if(d.r < 12){ return 12}
+          return d.r
+        } )
+        .attr("stroke","black")
+        .attr("fill", function(d){return d.color} )
+
+/* Create the text for each block */
+var elemEnter = svg.selectAll(".circle");
+elemEnter.append("text")
+  .style("text-anchor", "middle")
+  .text(function(d){return d.r+"%"});
+
+
+function curveLine(lines, id, transformY){
+  xScale = d3.scale.linear()
+      .domain([lines[0].x, lines[lines.length-1].x])
+      .range([ 0, width]);
+
+  yScale = d3.scale.linear()
+      .domain([0, d3.max(lines, function (d) {
+
+          return d.y;
+      })])
+      .range([height, 0]);
+
+  lineFun = d3.svg.line()
+    .x(function (d) {
+        return xScale(d.x);
+    })
+    .y(function (d) {
+        return yScale(d.y);
+    })
+    .interpolate("basis");
+  svg.append("g")
+    .attr("transform", function(d){return "translate("+0+","+transformY+")"})
+    .append("path")
+      .attr("id", id)
+      .attr("stroke", "blue")
+      .attr("fill", "#E6550D")
+      .attr("d", lineFun(lines));
+  // svg.append("use")
+  //     .attr("id", "curve-line-"+id)
+  //     .attr("xlink:href", "#"+id);
+}
+
+</script>

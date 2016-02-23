@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+<meta charset="utf-8">
+<title>The Wealth & Health of Nations</title>
+<header>
+<style>
+/*import url(../style.css?aea6f0a);*/
+
+
+text {
+  font: 10px sans-serif;
+}
+.div{
+	float: left;
+}
+
+</style>
+</header>
+
+
+<body>
+	<div class="div"><h3>LACTATING HEALING INDICATOR ?</h3></div>
+	<div class="div" id="chart1">
+		<svg width="120" height="350">
+				<defs>
+			        <linearGradient id="Gradient-1" x1="0" y1="0" x2="0" y2="100%">
+			            <stop offset="0%" stop-color="#E14C51"></stop>
+			            <stop offset="100%" stop-color="skyblue"></stop>
+			        </linearGradient>
+			    </defs>
+				
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+	
+	<div class="div">
+		<h3>Healthy cow rate after treatment</h3>
+		<div id="chart2">
+			<svg width="350" height="120">
+					<defs>
+				        <linearGradient id="Gradient-2" x1="0" y1="0" x2="100%" y2="0">
+				            <stop offset="0%" stop-color="yellow"></stop>
+				            <stop offset="100%" stop-color="lightgreen"></stop>
+				        </linearGradient>
+				    </defs>
+					
+				<rect x="0" y="10" width="350" height="40" fill="url(#Gradient-2)"></rect>
+
+				<text x="0" y="85">- in the healthy cows group before the clinical mastitis</text>
+			</svg>
+		</div>
+
+		<div id="chart3">
+			<svg width="350" height="120">
+				<rect x="0" y="10" width="350" height="40" fill="url(#Gradient-2)"></rect>
+				<text x="0" y="85">- in the infected cows group before the clinical mastitis</text>
+			</svg>
+		</div>
+	</div>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script></script>
+	<script src="chart-helper.js" charset="utf-8"></script></script>
+	<script>
+	var width = 350, height=350;
+	var range1 = [{value: 0, y:20},{value: 50, y:(height/3)},{value: 70, y:(height*2/3)}, {value: 100, y:height-30}];
+	
+	var svg = d3.select("#chart1").select("svg");
+	verticalLetterText(0,"SAUREUS")
+	drawLineRange(height/3,"50%")
+	verticalLetterText(height/3,"SUBERIS")
+	drawLineRange(height*2/3,"70%")
+	verticalLetterText(height*2/3,"ECOLI")
+	ratePointer(70, "70%", range1);
+
+	
+
+	var width = 350, height=40;
+	var range2 = [{value: 0, x:0},{value: 60, x:(width/2)},{value: 100, x: width}];
+	var svg = d3.select("#chart2").select("svg");
+	drawLineRangeX(width/2,"60%")
+	ratePointerX(0, "0%", range2);
+
+
+	var range3 = [{value: 0, x:0},{value: 80, x:(width/2)},{value: 100, x: width}];
+	var svg = d3.select("#chart3").select("svg");
+	drawLineRangeX(width/2,"80%")
+	ratePointerX(60, "60%", range3);
+
+	function scaleX(value, range){
+	  if(value >= range[range.length-1].value){ return range[range.length-1].x - 25}
+
+	  for (var i = 1; i < range.length ; i++) {
+	  	if(value <= range[i].value){
+	  		max = range[i];
+	  		min = range[i-1];
+	  		break;
+	  	}
+	  };
+	  totalValue = max.value - min.value
+	  leftValue = value - min.value
+	  totalLength = max.x - min.x
+	  leftLength = (leftValue * totalLength)/totalValue
+	  return min.x + leftLength;
+	}
+
+	function ratePointerX(value, display, range){
+		var x = scaleX(value, range);
+		svg.append("text")
+			.attr("x",x+25)
+			.attr("y",10)
+			.text(display);
+		svg.append("image")
+			.attr({x:x, y:0, height:"20px", width:"20px", "xlink:href": "pointer.png"})
+	}
+
+
+	function drawLineRangeX(x,display){
+		svg.append("text")
+			.attr("x",x-10)
+			.attr("y",height+25)
+			.text(display)
+
+		var line1 = svg.append("line")
+		  .attr("x1", x)
+		  .attr("y1", 10)
+		  .attr("x2", x)
+		  .attr("y2", height+15)
+		  .attr("stroke-width", 1)
+		  .attr("stroke", "black");
+	}
+
+	</script>
+</body>

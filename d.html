@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+<meta charset="utf-8">
+<title>The Wealth & Health of Nations</title>
+<header>
+<style>
+/*import url(../style.css?aea6f0a);*/
+
+
+text {
+  font: 10px sans-serif;
+}
+.div{
+	width: 150px;
+	float: left;
+	text-align: left;
+}
+.title{
+	padding: 10px
+}
+
+</style>
+</header>
+
+
+<body>
+	<div class="div" id="chart1">
+		<div class="title">CCST</div>
+		<svg width="150" height="350">
+				<defs>
+			        <linearGradient id="Gradient-1" x1="0" y1="0" x2="0" y2="100%">
+			            <stop offset="0%" stop-color="yellow"></stop>
+			            <stop offset="100%" stop-color="lightgreen"></stop>
+			        </linearGradient>
+			    </defs>
+				
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+	<div class="div"  id="chart2">
+		<div class="title">CCSI</div>
+		<svg width="150" height="350">
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+	
+	<div class="div"  id="chart3">
+		<div class="title">STATUT</div>
+		<svg width="150" height="350">
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+	<div class="div"  id="chart4">
+		<div class="title">TAUX</div>
+		<svg width="150" height="350">
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+
+	<div class="div"  id="chart5">
+		<div class="title">NOUVELLES</div>
+		<svg width="150" height="350">
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script></script>
+	<script src="chart-helper.js" charset="utf-8"></script></script>
+	<script>
+	var width = 350, height=350;
+	var range1 = [{value: 0, y:height-10},{value: 200000, y:(height*2/3)}, {value: 250000, y:(height/3)}, {value: 750000, y:0}];
+	
+	var svg = d3.select("#chart1").select("svg");
+	verticalLetterText(0,"CONTAG")
+	verticalLetterText(height/3,"MIXED")
+	verticalLetterText(height*2/3,"ENVIRON")
+	drawLineRange(height/3,"250000")
+	drawLineRange(height*2/3,"200000")
+	ratePointer(0, "0", range1);
+
+
+	
+	var range2 = [{value: 0, y:height-10},{value: 20, y:(height*2/3)},{value: 45, y:(height/3)}, {value: 60, y:0}];
+	var svg = d3.select("#chart2").select("svg");
+	verticalLetterText(0,"CONTAG")
+	verticalLetterText(height/3,"MIXED")
+	verticalLetterText(height*2/3,"ENVIRON")
+	drawLineRange(height/3,"45%")
+	drawLineRange(height*2/3,"20%")
+	ratePointer(21, "21%", range2);
+
+
+	var range3 = [{value: 0, y:20},{value: 70, y:(height/3)},{value: 75, y:(height*2/3)}, {value: 100, y:height-30}];
+	var svg = d3.select("#chart3").select("svg");
+	verticalLetterText(0,"CONTAG")
+	verticalLetterText(height/3,"MIXED")
+	verticalLetterText(height*2/3,"ENVIRON")
+	drawLineRange(height/3,"70%")
+	drawLineRange(height*2/3,"75%")
+	ratePointer(0, "0%", range3);
+
+
+	var range4 = [{value: 0, y:height-10},{value: 20, y:(height*2/3)},{value: 45, y:(height/3)}, {value: 60, y:0}];
+	var svg = d3.select("#chart4").select("svg");
+	verticalLetterText(0,"CONTAG")
+	verticalLetterText(height/3,"MIXED")
+	verticalLetterText(height*2/3,"ENVIRON")
+	drawLineRange(height/3,"45%")
+	drawLineRange(height*2/3,"20%")
+	ratePointer(21, "21%", range4);
+
+
+
+	var range5 = [{value: 0, y:height-10},{value: 10, y:(height*2/3)}, {value: 30, y:0}];
+	var svg = d3.select("#chart5").select("svg");
+	verticalLetterText(0,"CONTAG")
+	verticalLetterText(height/3,"MIXED")
+	verticalLetterText(height*2/3,"ENVIRON")
+	drawLineRange(height*2/3,"10%")
+	ratePointer(20, "20%", range5);
+
+    
+	</script>
+</body>

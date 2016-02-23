@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+<meta charset="utf-8">
+<title>The Wealth & Health of Nations</title>
+<header>
+<style>
+/*import url(../style.css?aea6f0a);*/
+
+
+text {
+  font: 10px sans-serif;
+}
+.div{
+	width: 250px;
+	float: left;
+	text-align: right;
+}
+
+</style>
+</header>
+
+
+<body>
+	<div class="div"><h3>HEALING INDICATOR DURING DRY PERIOD?</h3></div>
+	<div class="div" id="chart1">
+		<svg width="200" height="350">
+				<defs>
+			        <linearGradient id="Gradient-1" x1="0" y1="0" x2="0" y2="100%">
+			            <stop offset="0%" stop-color="#E14C51"></stop>
+			            <stop offset="100%" stop-color="skyblue"></stop>
+			        </linearGradient>
+			    </defs>
+				
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+	
+
+	<div class="div"><h3>NEW INFECTION INDICATOR DURING DRY PERIOD?</h3></div>
+	<div class="div" id="chart2">
+		<svg width="200" height="350">
+			<rect x="40" y="0" width="40" height="350" fill="url(#Gradient-1)"></rect>
+
+		</svg>
+	</div>
+
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script></script>
+	<script src="chart-helper.js" charset="utf-8"></script></script>
+	<script>
+	var width = 350, height=350;
+	var range1 = [{value: 0, y:20},{value: 50, y:(height/3)},{value: 70, y:(height*2/3)}, {value: 100, y:height-30}];
+	
+	var svg = d3.select("#chart1").select("svg");
+	verticalLetterText(0,"SAUREUS")
+	drawLineRange(height/3,"50%")
+	verticalLetterText(height/3,"SUBERIS")
+	drawLineRange(height*2/3,"70%")
+	verticalLetterText(height*2/3,"ECOLI")
+	ratePointer(55, "55%", range1);
+
+	var range2 = [{value: 0, y:20},{value: 10, y:(height*2/3)}, {value: 20, y:height-30}];
+	var svg = d3.select("#chart2").select("svg");
+	verticalLetterText(0,"SAUREUS")
+	verticalLetterText(height/3,"SUBERIS")
+	drawLineRange(height*2/3,"10%")
+	verticalLetterText(height*2/3,"ECOLI")
+	ratePointer(5, "5%", range2);
+
+
+
+	</script>
+</body>
